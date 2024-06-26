@@ -1,0 +1,51 @@
+  <link rel='stylesheet' href='https://rawcdn.githack.com/SochavaAG/example-mycode/master/_common/css/reset.css'>
+<!-- partial:index.partial.html -->
+<div class="ag-format-container">
+  <div class="ag-courses_box">
+    <div class="ag-courses_item" *ngFor="let room of rooms">
+      <a href="#" class="ag-courses-item_link">
+        <div class="ag-courses-item_bg"></div>
+
+        <div class="ag-courses-item_title">
+         {{room.name}}
+        </div>
+
+        <div class="ag-courses-item_date-box">
+          생성자:
+          <span class="ag-courses-item_date">
+            {{room.owner}}
+          </span>
+        </div>
+      </a>
+    </div>
+
+    <div class="ag-courses_item">
+      <a class="ag-courses-item_link">
+        <div class="ag-courses-item_bg"></div>
+        <div class="ag-courses-item_title">
+         새로운 채팅방 생성하기
+        </div>
+        
+        <form (submit)="onCreateRoom(createForm)" #createForm="ngForm">
+            <input 
+                matInput
+                type="email"
+                name="roomName" 
+                id="roomName" 
+                ngModel
+                required
+                placeholder="채팅방 이름"
+                #roomName="ngModel"
+            >
+            <button type="submit" id="createRoom">생성하기</button>
+        </form>
+
+        <div class="ag-courses-item_date-box">
+          <span class="ag-courses-item_date">
+          </span>
+        </div>
+      </a>
+    </div>
+</div>
+<!-- partial -->
+  

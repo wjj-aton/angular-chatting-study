@@ -25,7 +25,7 @@ export class LoginComponent {
 
       localStorage.setItem("accessToken", response.data.item.accessToken);
 
-      this.router.navigate([`login`]);
+      this.router.navigate([`lobby`]);
     })
     .catch(() => {
       alert('로그인에 실패하였습니다.');

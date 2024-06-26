@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
-import { RouterOutlet, RouterModule, Router} from '@angular/router';
+import { Router} from '@angular/router';
 
 import axios from "axios";
 

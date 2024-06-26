@@ -1,0 +1,52 @@
+<link href='https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css' rel='stylesheet'>
+                                <link href='https://use.fontawesome.com/releases/v5.7.2/css/all.css' rel='stylesheet'>
+<div class="wrapper bg-white">
+  <div class="h2 text-center">1on1 Chat Sign Up</div>
+  <div class="h4 text-muted text-center pt-2">Enter your information</div>
+  <form class="pt-3" (submit)="onSignUp(signUpForm)" #signUpForm="ngForm">
+    <div class="form-group py-2">
+        <div class="input-field"> <span class="far fa-user p-2"></span>
+            <input 
+                type="email"
+                name="email" 
+                id="" 
+                ngModel
+                required
+                placeholder="Email Address"
+                #email="ngModel"
+            >
+        </div>
+    </div>
+    <div class="form-group py-1 pb-2">
+        <div class="input-field"> <span class="fas fa-lock p-2"></span> 
+            <input
+            type="password"
+            name="password" 
+            id="" 
+            ngModel
+            required
+            placeholder="Enter your Password"
+            #password="ngModel"
+            >
+          <!-- <button class="btn bg-white text-muted"> <span class="far fa-eye-slash"></span> </button>  -->
+        </div>
+    </div>
+    <div class="form-group py-1 pb-2">
+        <div class="input-field"> <span class="fas p-2"></span> 
+            <input
+            type="text"
+            name="name" 
+            id="" 
+            ngModel
+            required
+            placeholder="Enter your name"
+            #name="ngModel"
+            >
+          <!-- <button class="btn bg-white text-muted"> <span class="far fa-eye-slash"></span> </button>  -->
+        </div>
+    </div>
+    <div class="d-flex align-items-start">
+    </div> 
+        <button class="btn btn-block text-center my-3">Sign up</button>
+  </form>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, afterNextRender } from '@angular/core';
+import { Component, NgModule, OnInit, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,7 +13,6 @@ import axios from "axios";
   styleUrl: './lobby.component.css'
 })
 export class LobbyComponent implements OnInit {
-  constructor(private router:Router) { }
 
   rooms: Array<{
     _id: string;
@@ -24,6 +23,7 @@ export class LobbyComponent implements OnInit {
 
   accessToken?: string;
 
+  constructor(private router:Router) {}
 
   ngOnInit() {
     const accessToken = localStorage.getItem('accessToken');

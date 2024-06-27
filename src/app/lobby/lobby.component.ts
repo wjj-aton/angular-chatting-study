@@ -2,6 +2,7 @@ import { Component, NgModule, OnInit, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { WebSocketSubject, webSocket } from 'rxjs/webSocket'
 
 import axios from "axios";
 
@@ -23,6 +24,8 @@ export class LobbyComponent implements OnInit {
 
   accessToken?: string;
 
+  ws: WebSocketSubject<any> = webSocket('ws://172.20.60.200:3000');
+
   constructor(private router:Router) {}
 
   ngOnInit() {
@@ -32,6 +35,26 @@ export class LobbyComponent implements OnInit {
       this.accessToken = accessToken;
 
     this.loadChatRooms();
+
+    let msg = {
+      type: 'authenticate',
+      token: this.accessToken
+  };
+
+    const observableA = this.ws.multiplex(
+      () => (msg), // When server gets this message, it will start sending messages for 'A'...
+      () => (null), // ...and when gets this one, it will stop.
+      (message: any) => message.type === msg // If the function returns `true` message is passed down the stream. Skipped if the function returns false.
+    );
+
+    const subA = observableA.subscribe((messageForA) => {
+      console.log(messageForA)
+    });
+
+    this.ws.subscribe((msg) => {
+      const rooms: any[] = msg.items;
+      this.rooms = rooms;
+    })
   }
 
   async loadChatRooms(): Promise<void> {

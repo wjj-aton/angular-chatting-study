@@ -16,8 +16,6 @@ import {
   MqttService
 } from 'ngx-mqtt';
 
-
-
 @Component({
   selector: 'app-chatroom',
   standalone: true,
@@ -37,7 +35,6 @@ export class ChatroomComponent implements OnInit {
   userId!: string;
 
   accessToken = localStorage.getItem('accessToken');
-
 
   private subscription?: Subscription;
   message: any;

@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, afterNextRender } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 import axios from "axios";
 
@@ -22,9 +22,15 @@ export class LobbyComponent implements OnInit {
     status: string;
   }> = [];
 
-  accessToken = localStorage.getItem('accessToken');
+  accessToken?: string;
+
 
   ngOnInit() {
+    const accessToken = localStorage.getItem('accessToken');
+
+    if(accessToken)
+      this.accessToken = accessToken;
+
     this.loadChatRooms();
   }
 
@@ -39,21 +45,16 @@ export class LobbyComponent implements OnInit {
     });
       const rooms: any[] = res.data.items;
       this.rooms = rooms;
-      // this.chat_rooms = rooms.map((room, idx) => {
-      //   return {
-      //     id: room._id,
-      //     title: room.title,
-      //     master: room.master[0].name,
-      //   };
-      // });
     } catch (e) {
       console.error(e);
     }
   }
 
+  onEnterRoom(id: string) {
+    this.router.navigate(["chatRoom", id]);
+  }
+
   async onCreateRoom(form: NgForm) {
-    console.log('채팅방 생성!', form.value.roomName);
-    
     const info = await axios.post("http://172.20.60.200:3000/room", {
       name: form.value.roomName
     }, {
@@ -64,7 +65,7 @@ export class LobbyComponent implements OnInit {
     .then((response) => {
       if(response.status == 200) {
         alert('채팅방이 생성되었습니다.');
-        this.router.navigate([`login`]);
+        window.location.reload();
       } 
     })
     .catch(() => {

@@ -1,0 +1,33 @@
+	<div class="chat-container"> 
+		<div class="message-container" *ngFor="let chat of chats"> 
+          @if (chat.talker == userId) {
+            <div class="message receiver-message"> 
+				{{chat.message}}
+			</div> 
+          }
+          @if (chat.talker != userId) {
+			<div class="message sender-message"> 
+				{{chat.message}}
+			</div> 
+          }
+
+			<!-- <div class="message receiver-message"> 
+				Hi! How can I help you today? 
+			</div> 
+			<div class="message sender-message"> 
+				I have a question about your products. 
+			</div> 
+			<div class="message receiver-message"> 
+				Sure, feel free to ask! 
+			</div>  -->
+		</div> 
+
+		<div class="message"> 
+			<input type="text"
+				placeholder="메시지를 입력하세요..."> 
+			<button>전송</button> 
+          @if (ownerId == userId) {
+			<button (click)="onDeleteRoom()" id="delete">대화방 삭제</button> 
+          }
+		</div> 
+	</div> 

@@ -3,7 +3,7 @@
 <div class="ag-format-container">
   <div class="ag-courses_box">
     <div class="ag-courses_item" *ngFor="let room of rooms">
-      <a href="#" class="ag-courses-item_link">
+      <a (click)="onEnterRoom(room._id)" class="ag-courses-item_link">
         <div class="ag-courses-item_bg"></div>
 
         <div class="ag-courses-item_title">
@@ -11,10 +11,18 @@
         </div>
 
         <div class="ag-courses-item_date-box">
-          생성자:
-          <span class="ag-courses-item_date">
-            {{room.owner}}
-          </span>
+          대화방 참여자 인원 수:
+          @if (room.status == 'waiting') {
+            <span class="ag-courses-item_date">
+                1/2
+              </span>
+          }
+          @if (room.status == 'chatting') {
+            <span class="ag-courses-item_date">
+                 2/2
+              </span>
+          }
+
         </div>
       </a>
     </div>

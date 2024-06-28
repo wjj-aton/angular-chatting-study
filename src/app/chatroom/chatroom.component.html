@@ -1,4 +1,4 @@
-	<div class="chat-container"> 
+	<div class="chat-container" #scrollMe> 
 		<div class="message-container" *ngFor="let chat of chats"> 
           @if (chat.talker == userId) {
             <div class="message receiver-message"> 
@@ -12,7 +12,7 @@
           }
 		</div> 
 
-		<div class="message"> 
+		<div class="message" style="position: fixed; bottom: 0;"> 
             <form (submit)="onClickSend(messageForm)" #messageForm="ngForm">
                 <input type="text"
 				placeholder="메시지를 입력하세요..." 

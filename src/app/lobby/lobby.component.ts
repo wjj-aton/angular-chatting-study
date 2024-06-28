@@ -6,6 +6,8 @@ import { WebSocketSubject, webSocket } from 'rxjs/webSocket'
 
 import axios from "axios";
 
+import base64, { decode } from "js-base64"
+
 @Component({
   selector: 'app-lobby',
   standalone: true,
@@ -18,11 +20,14 @@ export class LobbyComponent implements OnInit {
   rooms: Array<{
     _id: string;
     owner: string;
+    participants: string | null;
     name: string;
     status: string;
   }> = [];
 
   accessToken?: string;
+
+  userId!: string;
 
   ws: WebSocketSubject<any> = webSocket('ws://172.20.60.200:3000');
 
@@ -31,8 +36,15 @@ export class LobbyComponent implements OnInit {
   ngOnInit() {
     const accessToken = localStorage.getItem('accessToken');
 
-    if(accessToken)
+    if(accessToken) {
       this.accessToken = accessToken;
+
+      const payload = this.accessToken.split('.')[1];
+        const decodedPayload = decode(payload);
+        this.userId = JSON.parse(decodedPayload).sub;
+    }
+
+    console.log("userId: ", this.userId)
 
     this.loadChatRooms();
 
@@ -68,13 +80,23 @@ export class LobbyComponent implements OnInit {
     });
       const rooms: any[] = res.data.items;
       this.rooms = rooms;
+      console.log(this.rooms);
     } catch (e) {
       console.error(e);
     }
   }
 
-  onEnterRoom(id: string) {
-    this.router.navigate(["chatRoom", id]);
+  onEnterRoom(room: {
+    _id: string;
+    owner: string;
+    participants: string | null;
+    name: string;
+    status: string;
+  }) {
+    if((room.status == 'chatting' && room.participants != this.userId && room.owner != this.userId))
+      return;
+
+    this.router.navigate(["chatRoom", room._id]);
   }
 
   async onCreateRoom(form: NgForm) {
@@ -87,8 +109,9 @@ export class LobbyComponent implements OnInit {
   })
     .then((response) => {
       if(response.status == 200) {
-        alert('채팅방이 생성되었습니다.');
-        window.location.reload();
+        form.reset();
+        // alert('채팅방이 생성되었습니다.');
+        // window.location.reload();
       } 
     })
     .catch(() => {
@@ -97,6 +120,23 @@ export class LobbyComponent implements OnInit {
 
     // console.log('email: ', form.value.email)
     // console.log('password: ', form.value.password)
+  }
+
+  async onDeleteRoom(_id: string) {
+    const info = await axios.delete(`http://172.20.60.200:3000/room/`+ _id, {
+      headers: {
+        Authorization: `Bearer ${this.accessToken}`,
+      }
+  })
+    .then((response) => {
+      if(response.status == 200) {
+        // alert('채팅방이 삭제되었습니다.');
+        this.router.navigate([`lobby`]);
+      } 
+    })
+    .catch(() => {
+      // alert("채팅방 삭제에 실패하였습니다.");
+    })
   }
 
 }

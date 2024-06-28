@@ -3,34 +3,67 @@
 <div class="ag-format-container">
   <div class="ag-courses_box">
     <div class="ag-courses_item" *ngFor="let room of rooms">
-      <a (click)="onEnterRoom(room._id)" class="ag-courses-item_link">
-        <div class="ag-courses-item_bg"></div>
+      <div (click)="onEnterRoom(room)" class="ag-courses-item_link">
+        @if (room.status == 'waiting') {
+            <div class="ag-courses-item_bg"></div>
+            <span class="ag-courses-item_date" style="color: #f9b234;">
+                대기 중
+            </span>
+          }
+          @else if (room.status == 'chatting' && room.participants != userId && room.owner != userId) {
+            <div class="ag-courses-item_bg" id="red"></div>
+            <span class="ag-courses-item_date" style="color: red;">
+                입장 불가
+              </span> 
+
+          }
+          @else if (room.status == 'chatting') {
+            <div class="ag-courses-item_bg" id="green"></div>
+            <span class="ag-courses-item_date" style="color: #3ecd5e;">
+                참여중
+            </span>
+          }
 
         <div class="ag-courses-item_title">
          {{room.name}}
         </div>
 
         <div class="ag-courses-item_date-box">
-          대화방 참여자 인원 수:
-          @if (room.status == 'waiting') {
-            <span class="ag-courses-item_date">
-                1/2
-              </span>
-          }
-          @if (room.status == 'chatting') {
-            <span class="ag-courses-item_date">
-                 2/2
-              </span>
-          }
+            @if (room.status == 'waiting') {
+                대화방 참여자 인원 수:
+                <span class="ag-courses-item_date">
+                    1/2
+                </span> 
+                @if (room.owner == userId) {
+                    <!-- <button type="submit" id="deleteRoom">삭제하기</button> -->
+                }
+              }
+              @else if (room.status == 'chatting' && room.participants != userId && room.owner != userId) {
+                대화방 참여자 인원 수:
+                <span class="ag-courses-item_date">
+                    2/2
+                  </span> 
+    
+              }
+              @else if (room.status == 'chatting') {
+                대화방 참여자 인원 수:
+                <span class="ag-courses-item_date">
+                    2/2
+                </span>
+                @if (room.owner == userId) {
+                    <!-- <button type="submit" id="deleteRoom" (click)="onDeleteRoom(room._id)">삭제하기</button> -->
+                }    
+              }
 
         </div>
-      </a>
+      </div>
     </div>
 
     <div class="ag-courses_item">
       <a class="ag-courses-item_link">
-        <div class="ag-courses-item_bg"></div>
+        <div class="ag-courses-item_bg" id="black"></div>
         <div class="ag-courses-item_title">
+            
          새로운 채팅방 생성하기
         </div>
         

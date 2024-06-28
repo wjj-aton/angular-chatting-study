@@ -30,6 +30,8 @@
     border-radius: 28px;
 
     border: solid 1px black;
+
+    z-index: 100;
   }
   .ag-courses-item_link {
     display: block;
@@ -63,7 +65,7 @@
   }
   .ag-courses-item_date {
     font-weight: bold;
-    color: #f9b234;
+    color: #4c49ea;
   
     -webkit-transition: color .5s ease;
     -o-transition: color .5s ease;
@@ -85,21 +87,24 @@
     -o-transition: all .5s ease;
     transition: all .5s ease;
   }
-  .ag-courses_item:nth-child(2n) .ag-courses-item_bg {
+#green {
     background-color: #3ecd5e;
   }
-  .ag-courses_item:nth-child(3n) .ag-courses-item_bg {
+#red{
     background-color: #e44002;
   }
-  .ag-courses_item:nth-child(4n) .ag-courses-item_bg {
+  #black{
+    background-color: #4c49ea;
+  }
+  /* .ag-courses_item:nth-child(4n) .ag-courses-item_bg {
     background-color: #952aff;
   }
   .ag-courses_item:nth-child(5n) .ag-courses-item_bg {
     background-color: #cd3e94;
-  }
-  .ag-courses_item:nth-child(6n) .ag-courses-item_bg {
+  } */
+  /* .ag-courses_item:nth-child(6n) .ag-courses-item_bg {
     background-color: #4c49ea;
-  }
+  } */
   
   
   
@@ -136,19 +141,33 @@
     .ag-courses-item_date-box {
       font-size: 16px;
     }
-
-    #roomName {
-        height: 2rem;
-        width: 18rem;
-        margin-right: 2rem;
-    }
-
-    #createRoom {
-        height: 2.5rem;
-        width: 7.5rem;
-        border-radius: 8px;
-        font-weight: bold;
-        color: #FFF;
-        background-color: black;
-    }
   }
+
+  #roomName {
+    height: 2rem;
+    width: 12rem;
+    margin-right: 2rem;
+}
+
+#createRoom {
+    height: 2.5rem;
+    width: 5rem;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #FFF;
+    background-color: black;
+}
+
+#deleteRoom {
+  height: 1.5rem;
+  font-size: 14px;
+  width: 5rem;
+  margin-left: 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  color: #FFF;
+  background-color: red;
+  border: solid 1px red;
+
+  z-index: 1;
+}

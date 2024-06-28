@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
@@ -36,6 +36,8 @@ export class ChatroomComponent implements OnInit {
 
   accessToken = localStorage.getItem('accessToken');
 
+  @ViewChild('scrollMe') private myScrollContainer?: ElementRef;
+
   private subscription?: Subscription;
   message: any;
 
@@ -66,13 +68,13 @@ export class ChatroomComponent implements OnInit {
     .then((response) => {
       console.log(response.data.item);
       if(response.status == 200) {
-        alert('채팅방에 입장하였습니다..');
+        // alert('채팅방에 입장하였습니다..');
       } 
       this.chats = response.data.item.chat;
       this.ownerId = response.data.item.owner.id;
     })
     .catch(() => {
-      alert("채팅방 입장에 실패하였습니다.");
+      // alert("채팅방 입장에 실패하였습니다.");
       this._location.back();
     })
 
@@ -98,6 +100,14 @@ export class ChatroomComponent implements OnInit {
     
     this._mqttService.unsafePublish(`chat/room/${this.roomId}`, JSON.stringify(jsonData), {qos: 1, retain: true});
     this._mqttService.unsafePublish(`chat/room/all`, JSON.stringify(jsonData), {qos: 1, retain: true});
+
+    form.reset();
+
+    setTimeout(() => {
+      if(this.myScrollContainer)
+        this.myScrollContainer.nativeElement.scrollTop = this.myScrollContainer.nativeElement.scrollHeight + 2000;
+    }, 100);
+    
   }
 
   async onDeleteRoom() {
@@ -108,12 +118,12 @@ export class ChatroomComponent implements OnInit {
   })
     .then((response) => {
       if(response.status == 200) {
-        alert('채팅방이 삭제되었습니다.');
+        // alert('채팅방이 삭제되었습니다.');
         this.router.navigate([`lobby`]);
       } 
     })
     .catch(() => {
-      alert("채팅방 삭제에 실패하였습니다.");
+      // alert("채팅방 삭제에 실패하였습니다.");
     })
   }
 }

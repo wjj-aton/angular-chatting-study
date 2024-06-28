@@ -7,6 +7,7 @@ import { WebSocketSubject, webSocket } from 'rxjs/webSocket'
 import axios from "axios";
 
 import base64, { decode } from "js-base64"
+import { response } from 'express';
 
 @Component({
   selector: 'app-lobby',
@@ -77,10 +78,18 @@ export class LobbyComponent implements OnInit {
         headers: {
           Authorization: `Bearer ${this.accessToken}`,
         },
-    });
-      const rooms: any[] = res.data.items;
+    })
+    .then((response) => {
+      const rooms: any[] = response.data.items;
       this.rooms = rooms;
-      console.log(this.rooms);
+      console.log("초기 방 목록: ", this.rooms);
+    })
+    
+    .catch((error) => {
+      if(error.response.status == 401)
+        this.router.navigate([`login`]);
+    });
+
     } catch (e) {
       console.error(e);
     }
@@ -114,29 +123,15 @@ export class LobbyComponent implements OnInit {
         // window.location.reload();
       } 
     })
-    .catch(() => {
-      alert("채팅방 생성이 실패하였습니다.");
+    .catch((error) => {
+      console.log(error);
+      if(error.response.status == 400) 
+        alert("채팅방 생성이 실패하였습니다.");
+      else if (error.data.status == 401) 
+        this.router.navigate([`login`]);
     })
 
     // console.log('email: ', form.value.email)
     // console.log('password: ', form.value.password)
   }
-
-  async onDeleteRoom(_id: string) {
-    const info = await axios.delete(`http://172.20.60.200:3000/room/`+ _id, {
-      headers: {
-        Authorization: `Bearer ${this.accessToken}`,
-      }
-  })
-    .then((response) => {
-      if(response.status == 200) {
-        // alert('채팅방이 삭제되었습니다.');
-        this.router.navigate([`lobby`]);
-      } 
-    })
-    .catch(() => {
-      // alert("채팅방 삭제에 실패하였습니다.");
-    })
-  }
-
 }

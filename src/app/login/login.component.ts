@@ -29,6 +29,7 @@ export class LoginComponent {
     })
     .catch(() => {
       alert('로그인에 실패하였습니다.');
+      form.reset();
     });
 
     // console.log('email: ', form.value.email)

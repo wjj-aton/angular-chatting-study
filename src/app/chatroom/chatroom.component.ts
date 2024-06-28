@@ -75,7 +75,7 @@ export class ChatroomComponent implements OnInit {
     })
     .catch(() => {
       // alert("채팅방 입장에 실패하였습니다.");
-      this._location.back();
+      this.router.navigate([`login`]);
     })
 
     this.subscription = this._mqttService.observe(`chat/room/${this.roomId}`).subscribe((message: IMqttMessage) => {
